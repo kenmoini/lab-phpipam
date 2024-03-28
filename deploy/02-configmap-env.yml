@@ -13,4 +13,4 @@ metadata:
 data:
   TZ: America/New_York
   IPAM_TRUST_X_FORWARDED: "true"
-  SCAN_INTERVAL: 10m
+  SCAN_INTERVAL: 5m
