@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpipam-web
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+  labels:
+    app: phpipam
+    service: phpipam-web
+    component: phpipam-web
+    id: phpipam-web
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      name: www-tcp
+  selector:
+    id: phpipam-web
+  type: ClusterIP

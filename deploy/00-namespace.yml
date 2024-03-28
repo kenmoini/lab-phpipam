@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: phpipam
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    app: phpipam
+    service: phpipam
+    component: phpipam
+    id: phpipam

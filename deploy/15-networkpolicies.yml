@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-phpipam-db
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
+spec:
+  podSelector:
+    matchLabels:
+      service: phpipam-mariadb
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              service: phpipam
+        - podSelector:
+            matchLabels:
+              component: phpipam-web
+      ports:
+        - protocol: TCP
+          port: 3306

@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpipam-cron
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  labels:
+    app: phpipam
+    service: phpipam-cron
+    component: phpipam-cron
+    id: phpipam-cron
+spec:
+  selector:
+    matchLabels:
+      app: phpipam
+      service: phpipam-cron
+      component: phpipam-cron
+      id: phpipam-cron
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: phpipam
+        service: phpipam-cron
+        component: phpipam-cron
+        id: phpipam-cron
+    spec:
+      containers:
+        - name: phpipam-cron
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          image: docker.io/phpipam/phpipam-cron:latest
+          envFrom:
+            - configMapRef:
+                name: phpipam-config
+            - secretRef:
+                name: phpipam-db-info
+          volumeMounts:
+            - name: phpipam-ca-certs
+              mountPath: /usr/local/share/ca-certificates
+      volumes:
+        - name: phpipam-ca-certs
+          configMap:
+            name: phpipam-ca-certs

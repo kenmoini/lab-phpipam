@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: phpipam-db-data
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: phpipam
+    service: phpipam-mariadb
+    component: phpipam-mariadb
+    id: phpipam-mariadb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: bulk-ssd
+  resources:
+    requests:
+      storage: 5Gi

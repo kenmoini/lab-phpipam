@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phpipam-web
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"
+  labels:
+    app: phpipam
+    service: phpipam-web
+    component: phpipam-web
+    id: phpipam-web
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - phpipam.apps.k8s.kemo.labs
+  rules:
+    - host: phpipam.apps.k8s.kemo.labs
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: phpipam-web
+                port:
+                  number: 80

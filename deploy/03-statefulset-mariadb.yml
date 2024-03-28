@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: phpipam-mariadb
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    app: phpipam
+    service: phpipam-mariadb
+    component: phpipam-mariadb
+    id: phpipam-mariadb
+spec:
+  serviceName: phpipam-mariadb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpipam
+      service: phpipam-mariadb
+      component: phpipam-mariadb
+      id: phpipam-mariadb
+  template:
+    metadata:
+      labels:
+        app: phpipam
+        service: phpipam-mariadb
+        component: phpipam-mariadb
+        id: phpipam-mariadb
+    spec:
+      #affinity:
+      #  podAffinity:
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #      - labelSelector:
+      #          matchExpressions:
+      #            - key: "app"
+      #              operator: In
+      #              values:
+      #                - phpipam
+      #        topologyKey: "kubernetes.io/hostname"
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: phpipam-mariadb
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "0.5"
+          image: lscr.io/linuxserver/mariadb:latest
+          ports:
+            - containerPort: 3306
+              name: mariadb-tcp
+          envFrom:
+            - secretRef:
+                name: phpipam-db-info
+          volumeMounts:
+            - name: phpipam-db-data
+              mountPath: /var/lib/mysql/data
+      volumes:
+        - name: phpipam-db-data
+          persistentVolumeClaim:
+            claimName: phpipam-db-data
