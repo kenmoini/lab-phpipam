@@ -12,9 +12,5 @@ metadata:
     id: phpipam-config
 data:
   TZ: America/New_York
-  IPAM_DATABASE_HOST: my.database.server
-  IPAM_DATABASE_USER: existing_username
-  IPAM_DATABASE_PASS: existing_password
-  IPAM_DATABASE_NAME: phpipam
   IPAM_TRUST_X_FORWARDED: "true"
   SCAN_INTERVAL: 10m
