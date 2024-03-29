@@ -45,6 +45,7 @@ spec:
             - name: phpipam-ca-certs
               mountPath: /usr/local/share/ca-certificates
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       volumes:
         - name: phpipam-ca-certs
           configMap:
