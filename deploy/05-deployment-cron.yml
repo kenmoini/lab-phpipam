@@ -18,6 +18,9 @@ spec:
       component: phpipam-cron
       id: phpipam-cron
   replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
